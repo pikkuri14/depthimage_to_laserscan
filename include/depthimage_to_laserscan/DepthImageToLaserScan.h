@@ -200,11 +200,32 @@ namespace depthimage_to_laserscan
             // Calculate actual distance
             r = hypot(x, z);
           }
+	  ////FIKRI : if NaN is originally from the device
+	  else {
+	   r = scan_msg->range_max;
+	  }
+
+
 
           // Determine if this point should be used.
-          if(use_point(r, scan_msg->ranges[index], scan_msg->range_min, scan_msg->range_max)){
-            scan_msg->ranges[index] = r;
-          }
+          //if(use_point(r, scan_msg->ranges[index], scan_msg->range_min, scan_msg->range_max)){
+            //scan_msg->ranges[index] = r;
+          //}
+	
+	//FIKRI : clipping range that is out of the range
+	if(use_point(r, scan_msg->ranges[index], scan_msg->range_min, scan_msg->range_max)){
+	  // If the value is above max, set it to max. Otherwise, use the real value r.
+	  if(r > scan_msg->range_max){
+	    scan_msg->ranges[index] = scan_msg->range_max;
+	  } else if(r < scan_msg->range_min){
+	    scan_msg->ranges[index] = scan_msg->range_max;
+	  } else {
+	    scan_msg->ranges[index] = r;
+	  }
+	}
+
+
+
         }
       }
     }

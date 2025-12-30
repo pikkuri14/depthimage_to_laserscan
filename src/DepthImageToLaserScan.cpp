@@ -70,11 +70,15 @@ bool DepthImageToLaserScan::use_point(const float new_value, const float old_val
     return false; // Do not replace old_value
   }
 
+  //FIKRI : pass if value is out of the range
+
   // If not in range, don't bother
-  const bool range_check = range_min <= new_value && new_value <= range_max;
-  if(!range_check){
-    return false;
-  }
+  //const bool range_check = range_min <= new_value && new_value <= range_max;
+  //if(!range_check){
+    //return false;
+  //}
+
+
 
   if(!old_finite){ // New value is in range and finite, use it.
     return true;
